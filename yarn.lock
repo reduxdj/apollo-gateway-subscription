@@ -729,7 +729,7 @@ graphql-tag@^2.11.0, graphql-tag@^2.12.3:
   dependencies:
     tslib "^2.1.0"
 
-graphql-tools@^8.2.0:
+graphql-tools@^8.2.4:
   version "8.2.4"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-8.2.4.tgz#3474771d3e50a9ff0234f0b3dc02392513df95e1"
   integrity sha512-r/dMv5VrsIthLXIsTd2DEdJ0SMCfhr5xAeraEZEaHzkhfKE8bnxj8T6AbrulJYILluh0IO0fHg+iSE0HVNQC2g==

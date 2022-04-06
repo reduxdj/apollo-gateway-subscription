@@ -34,3 +34,5 @@ yarn-error.log*
 ehthumbs.db
 *[Tt]humbs.db
 *.Trashes
+*/node_modules/*
+node_modules/*
