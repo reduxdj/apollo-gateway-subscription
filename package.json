@@ -1,5 +1,5 @@
 {
-  "name": "federation-subscription-tools",
+  "name": "apollo-gateway-subscription",
   "version": "0.2.0",
   "description": "A set of demonstration utilities to facilitate GraphQL subscription usage alongside a federated data graph.",
   "main": "dist/index.js",
