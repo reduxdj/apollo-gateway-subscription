@@ -1,7 +1,7 @@
 {
   "name": "apollo-gateway-subscription",
-  "version": "0.2.0",
-  "description": "A set of demonstration utilities to facilitate GraphQL subscription usage alongside a federated data graph.",
+  "version": "0.5.0",
+  "description": "Sidecar for subscriptions that work with apollo federation/supergraphs",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
   "keywords": [],
