@@ -1,6 +1,6 @@
 {
   "name": "apollo-gateway-subscription",
-  "version": "0.5.5",
+  "version": "0.5.6",
   "description": "Sidecar for subscriptions that work with Apollo Federation/Supergraphs",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
@@ -10,7 +10,7 @@
     "Subscriptions"
   ],
   "author": "Patrick Lemiuex",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "compile": "tsc --build tsconfig.json",
     "compile:clean": "tsc --build tsconfig.json --clean",
