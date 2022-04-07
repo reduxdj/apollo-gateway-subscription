@@ -1,6 +1,6 @@
 {
   "name": "apollo-gateway-subscription",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "description": "Sidecar for subscriptions that work with Apollo Federation/Supergraphs",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
