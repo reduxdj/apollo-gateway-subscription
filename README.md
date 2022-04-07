@@ -9,7 +9,18 @@
 
 ## Example Usage
 
-Download this project, https://github.com/reduxdj/example-gateway-subscriptions, for a working example of how to use this module.
+### If you don't have Docker, get here: https://docs.docker.com/get-docker/
+
+```
+git clone https://github.com/reduxdj/example-gateway-subscriptions
+docker compose up
+```
+
+#### Diagram
+
+The architecture of the provided example may be visualized as follows:
+
+![Architectural diagram of a federated data graph with a subscriptions service and a React client app](./architecture.drawio.svg)
 
 ### Make an Executable Schema from Federated and Subscription Type Definitions
 
@@ -314,12 +325,6 @@ A shared Redis instance is used to capture publications from the services behind
 **4. React App**
 
 The React app contains a homepage with a list of posts as well as a form to add new posts. When a new post is added, the feed of posts on the homepage will be automatically updated.
-
-#### Diagram
-
-The architecture of the provided example may be visualized as follows:
-
-![Architectural diagram of a federated data graph with a subscriptions service and a React client app](./example/architecture.drawio.svg)
 
 ## Important Considerations
 
