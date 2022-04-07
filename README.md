@@ -1,7 +1,5 @@
 # Using Subscriptions with a Federated Data Graph
 
-This demonstration library shows how a decoupled subscription service can run alongside a federated data graph to provide real-time updates to a client. While the subscription service runs a separate non-federated Apollo Server, client applications do not need to perform any special handling of their subscription operations and may send those requests as they would to any GraphQL API that supports subscriptions. The subscription service's API may also specify return types for the `Subscription` fields that are defined in the federated data graph without explicitly redefining them in that service's type definitions.
-
 **In brief, the utilities contained within this library will allow you to:**
 
 - Create a decoupled, independently scalable subscriptions service to run alongside a unified data graph
@@ -11,7 +9,7 @@ This demonstration library shows how a decoupled subscription service can run al
 
 ## Example Usage
 
-The following section outlines how to use the utilities included with this library. The following code is based on a complete working example that has been included in the `example` directory of this repository. Please reference the full example code for additional implementation details and context.
+Download this project, https://github.com/reduxdj/example-gateway-subscriptions, for an example of how to use this module...
 
 ### Make an Executable Schema from Federated and Subscription Type Definitions
 
@@ -38,11 +36,11 @@ To make the federated data graph's types available to the subscription service, 
 let schema;
 const gateway = new ApolloGateway();
 
-gateway.onSchemaLoadOrUpdate(schemaContext => {
+gateway.onSchemaLoadOrUpdate((schemaContext) => {
   schema = makeSubscriptionSchema({
     gatewaySchema: schemaContext.apiSchema,
     typeDefs,
-    resolvers
+    resolvers,
   });
 });
 
@@ -79,7 +77,7 @@ Note that for unmanaged federation, we must set a poll interval to query the sub
 The subscription service can resolve fields that are included in a published message's payload, but it will need to reach out to the federated data graph to resolve additional non-payload fields. Using an Apollo data source subclassed from the provided `GatewayDataSource`, specific methods can be defined that fetch the non-payload fields by diffing the payload fields with the overall selection set. Optionally, headers (etc.) may be attached to the request to the federated data graph by providing a `willSendRequest` method:
 
 ```js
-// LiveBlogDataSource/index.js (subscriptions service)
+// DataSourceExample/index.js (subscriptions service)
 
 import { GatewayDataSource } from "federation-subscription-tools";
 import gql from "graphql-tag";
@@ -120,7 +118,7 @@ export class LiveBlogDataSource extends GatewayDataSource {
 
     try {
       const response = await this.query(Subscription_GetPost, {
-        variables: { id: postID }
+        variables: { id: postID },
       });
       return this.mergeFieldData(payloadData, response.data.post);
     } catch (error) {
@@ -128,7 +126,6 @@ export class LiveBlogDataSource extends GatewayDataSource {
     }
   }
 }
-
 ```
 
 In the resolvers for the subscription field, the `fetchAndMergeNonPayloadPostData` method may be called to resolve all requested field data:
@@ -148,9 +145,9 @@ const resolvers = {
       },
       subscribe(_, args) {
         return pubsub.asyncIterator(["POST_ADDED"]);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 ```
 
@@ -168,14 +165,14 @@ const httpServer = http.createServer(function weServeSocketsOnly(_, res) {
 
 const wsServer = new ws.Server({
   server: httpServer,
-  path: "/graphql"
+  path: "/graphql",
 });
 
 useServer(
   {
     execute,
     subscribe,
-    context: ctx => {
+    context: (ctx) => {
       // If a token was sent for auth purposes, retrieve it here
       const { token } = ctx.connectionParams;
 
@@ -196,7 +193,7 @@ useServer(
         schema,
         operationName: msg.payload.operationName,
         document: parse(msg.payload.query),
-        variableValues: msg.payload.variables
+        variableValues: msg.payload.variables,
       };
 
       const operationAST = getOperationAST(args.document, args.operationName);
@@ -208,9 +205,7 @@ useServer(
 
       // Handle mutation and query requests
       if (operationAST.operation !== "subscription") {
-        return [
-          new GraphQLError("Only subscription operations are supported")
-        ];
+        return [new GraphQLError("Only subscription operations are supported")];
       }
 
       // Validate the operation document
@@ -222,7 +217,7 @@ useServer(
 
       // Ready execution arguments
       return args;
-    }
+    },
   },
   wsServer
 );
@@ -237,45 +232,6 @@ httpServer.listen({ port }, () => {
 ## Try the Demo
 
 ### Installation & Set-up
-
-The full example code can be found in the `example` directory. To run the example, you'll need to create a new graph in Apollo Studio for the gateway, [configure rover](https://www.apollographql.com/docs/rover/configuring) with your `APOLLO_KEY`, and then push the two services' schemas:
-
-```sh
-rover subgraph introspect http://localhost:4001 | rover subgraph publish blog@current --schema - --name authors --routing-url http://localhost:4001
-```
-
-```sh
-rover subgraph introspect http://localhost:4002 | rover subgraph publish blog@current --schema - --name posts --routing-url http://localhost:4002
-```
-
-**Important!** The services for the authors and posts subgraphs will need to be running to fetch their schemas from the specified endpoints. You can quickly start up these services without the overhead of running a full `docker-compose` first by running `npm run server:authors` and `npm run server:posts` from the `example/gateway-server` directory (in two different terminal windows). Once the schemas have been successfully pushed to Apollo Studio, you can kill these processes.
-
-Next, add `.env` files to the server and client directories:
-
-1. Add a `.env` file to the `example/gateway-server` directory using the `example/gateway-server/.env.sample` file as a template. Add your new `APOLLO_KEY` and `APOLLO_GRAPH_REF` as variables.
-2. Add a `.env` file to the `example/subscriptions-server` directory using the `example/subscriptions-server/.env.sample` file as a template. Add the same Apollo API key as the `APOLLO_KEY` and `APOLLO_GRAPH_REF`.
-3. Add a `.env` file to the `example/client` directory using the `example/client/.env.sample` file as a template.
-
-Finally, run `docker-compose up --build` from the `example` directory to start all services.
-
-TLDR;
-
-```bash
-cp example/gateway-server/.env.sample example/gateway-server/.env
-cp example/subscriptions-server/.env.sample example/subscriptions-server/.env
-cp example/client/.env.sample example/client/.env
-docker-compose up --build
-```
-
-The federated data graph endpoint may be accessed at [http://localhost:4000/graphql](http://localhost:4000/graphql).
-
-The subscriptions service WebSocket endpoint may be accessed at [ws://localhost:5000/graphql](ws://localhost:5000/graphql).
-
-A React app will be available at [http://localhost:3000](http://localhost:3000).
-
-### Usage
-
-To see the post list in the client app update in real-time, add a new post at [http://localhost:3000/post/add](http://localhost:3000/post/add) or run the following mutation directly:
 
 ```graphql
 mutation AddPost {
@@ -317,8 +273,8 @@ export const resolvers = {
       const post = newPost();
       pubsub.publish("POST_ADDED", { postAdded: post });
       return post;
-    }
-  }
+    },
+  },
 };
 ```
 
@@ -345,9 +301,9 @@ export const resolvers = {
       },
       subscribe(_, args) {
         return pubsub.asyncIterator(["POST_ADDED"]);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 ```
 

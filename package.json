@@ -1,11 +1,15 @@
 {
   "name": "apollo-gateway-subscription",
-  "version": "0.5.0",
-  "description": "Sidecar for subscriptions that work with apollo federation/supergraphs",
+  "version": "0.5.2",
+  "description": "Sidecar for subscriptions that work with Apollo Federation/Supergraphs",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "Apollo",
+    "ApolloGateway",
+    "Subscriptions"
+  ],
+  "author": "Patrick Lemiuex",
   "license": "ISC",
   "scripts": {
     "compile": "tsc --build tsconfig.json",
@@ -14,11 +18,11 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.8",
-    "apollo-datasource": "^0.7.3",
-    "apollo-server": "^3.6.2",
+    "apollo-datasource": "^3.3.1",
+    "apollo-server": "^3.6.7",
     "graphql": "^16.3.0",
     "graphql-parse-resolve-info": "4.12.0",
-    "graphql-tools": "^8.2.4",
+    "graphql-tools": "^8.2.5",
     "lodash": "^4.17.21",
     "node-fetch": "^2.6.1"
   },
