@@ -20,7 +20,7 @@ docker compose up
 
 The architecture of the provided example may be visualized as follows:
 
-![Architectural diagram of a federated data graph with a subscriptions service and a React client app](./architecture.drawio.svg)
+![Architectural diagram of a federated data graph with a subscriptions service and a React client app](https://github.com/reduxdj/example-gateway-subscriptions/raw/main/architecture.drawio.svg)
 
 ### Make an Executable Schema from Federated and Subscription Type Definitions
 
