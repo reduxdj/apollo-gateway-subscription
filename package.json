@@ -1,6 +1,6 @@
 {
   "name": "apollo-gateway-subscription",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Sidecar for subscriptions that work with Apollo Federation/Supergraphs",
   "main": "dist/index.js",
   "types": "dist/types.d.ts",
@@ -17,7 +17,7 @@
     "watch": "tsc --build tsconfig.json --watch"
   },
   "dependencies": {
-    "@apollo/client": "^3.5.8",
+    "@apollo/client": "^3.5.10",
     "apollo-datasource": "^3.3.1",
     "apollo-server": "^3.6.7",
     "graphql": "^16.3.0",

@@ -9,7 +9,7 @@
 
 ## Example Usage
 
-Download this project, https://github.com/reduxdj/example-gateway-subscriptions, for an example of how to use this module...
+Download this project, https://github.com/reduxdj/example-gateway-subscriptions, for a working example of how to use this module.
 
 ### Make an Executable Schema from Federated and Subscription Type Definitions
 
